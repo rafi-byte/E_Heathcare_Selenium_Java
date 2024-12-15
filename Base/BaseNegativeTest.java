@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class BaseNegativeTest {
+public class BaseNegativeTestInvalidLink {
     public static void main(String[] args) {
         // Setting up WebDriver
         ChromeOptions options = new ChromeOptions();
@@ -26,13 +26,7 @@ public class BaseNegativeTest {
             System.out.println("Negative Test - Invalid link clicked: Passed");
         }
 
-        // Negative Test: Check for a missing element
-        try {
-            driver.findElement(By.id("nonexistentElement"));
-            System.out.println("Negative Test - Non-existent element found: Failed");
-        } catch (NoSuchElementException e) {
-            System.out.println("Negative Test - Non-existent element found: Passed");
-        }
+        
 
         driver.quit();
     }
