@@ -1,10 +1,3 @@
-# Heathcare_App_Testing_with-Selenium_Java
-Test Automation Project with Selenium in Java Test Plan
-
-Here's a **detailed and extensive Selenium-based test plan for your healthcare application using Java**:
-
----
-
 ## Test Plan: Selenium Automation for Healthcare Application
 
 ### 1. **Test Objectives**
@@ -225,4 +218,3 @@ extent.flush();
 - Regularly update test scripts as new features are added.
 - Ensure compatibility with newer browser versions.
 
-Let me know if you'd like implementation assistance or further refinements!
