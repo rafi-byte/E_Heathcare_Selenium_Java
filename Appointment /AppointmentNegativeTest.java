@@ -24,7 +24,7 @@ public class AppointmentNegativeTest {
             driver.findElement(By.name("email")).sendKeys(""); // Missing email
             driver.findElement(By.name("phonenumber")).sendKeys("1234567890");
             driver.findElement(By.name("date_added")).sendKeys("2024-12-20");
-            driver.findElement(By.name("doc_name")).sendKeys("Dr. Smith");
+            driver.findElement(By.name("doc_name")).sendKeys("Dr. Zabir");
             driver.findElement(By.tagName("button")).click();
 
             String errorMessage = driver.findElement(By.id("error-message")).getText();
@@ -35,11 +35,11 @@ public class AppointmentNegativeTest {
 
         // Negative Test: Submit form with invalid email
         try {
-            driver.findElement(By.name("name")).sendKeys("John Doe");
+            driver.findElement(By.name("name")).sendKeys("Rafi Zabir");
             driver.findElement(By.name("email")).sendKeys("invalid-email");
             driver.findElement(By.name("phonenumber")).sendKeys("1234567890");
             driver.findElement(By.name("date_added")).sendKeys("2024-12-20");
-            driver.findElement(By.name("doc_name")).sendKeys("Dr. Smith");
+            driver.findElement(By.name("doc_name")).sendKeys("Dr. Zabir");
             driver.findElement(By.tagName("button")).click();
 
             String errorMessage = driver.findElement(By.id("error-message")).getText();
