@@ -8,6 +8,8 @@ public class CheckDiseasePositiveTest {
     public static void main(String[] args) {
         // Setting up WebDriver
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("user-data-dir=C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data");
+        options.addArguments("profile-directory=Default");
         WebDriver driver = new ChromeDriver(options);
 
         // Open the Patient/checkdisease.html page
