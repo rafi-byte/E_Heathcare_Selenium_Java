@@ -1,208 +1,87 @@
-# Selenium Test Automation for Healthcare Application
+# Selenium Automation Test Suite for Healthcare Application
 
 ## Overview
-This project automates the functional testing of a healthcare application using **Selenium WebDriver** with **Java**. It ensures critical workflows such as authentication, disease prediction, profile management, and appointment booking function reliably across browsers.
+This project contains a comprehensive Selenium-based test suite to automate the functional testing of a healthcare web application. Each module and feature of the application is tested with both positive and negative test cases, ensuring robust validation of the system.
 
----
+## Structure
+The test cases are divided into multiple Java files, categorized by application modules and functionalities. Below is a list of the sections covered:
 
-## Table of Contents
-1. [Test Objectives](#test-objectives)
-2. [Test Environment](#test-environment)
-3. [Dependencies](#dependencies)
-4. [Test Scenarios](#test-scenarios)
-5. [Test Cases](#test-cases)
-6. [Execution Strategy](#execution-strategy)
-7. [Reporting](#reporting)
-8. [Browser Compatibility](#browser-compatibility)
-9. [Maintenance](#maintenance)
+### 1. Base Template Files
+- `base.html`
+- `basic.html`
 
----
+### 2. Feature-Specific Templates
+#### Authentication
+- `signin_page/index.html`
+- `signup_form/signup.html`
+#### Patient Features
+- `checkdisease.html`
+- `consult_a_doctor.html`
+- `consultation_history.html`
+- `patient_ui.html`
+- `view_profile.html`
 
-## Test Objectives
-The main goals of this test automation are:
-- Verify user interactions such as **sign-up**, **login**, and **logout**.
-- Validate core features: **disease prediction**, **consultation booking**, and **profile management**.
-- Ensure proper error handling, form validation, and AJAX responses.
-- Run tests across multiple browsers for compatibility.
-
----
-
-## Test Environment
-
-### Tools & Frameworks:
-- **Selenium WebDriver**: Browser automation.
-- **TestNG**: Test management and assertions.
-- **Maven**: Dependency management.
-- **ExtentReports**: HTML reporting.
-- **Browser Drivers**: ChromeDriver, GeckoDriver, EdgeDriver.
-
-### Supported Environments:
-- **Browsers**: Chrome (v110+), Firefox (v100+), Edge (latest).
-- **Operating Systems**: Windows 10, macOS.
-- **Data**: Dummy test data for users, appointments, and consultations.
-
----
-
-## Dependencies
-Add the following dependencies to your `pom.xml`:
-
-```xml
-<dependencies>
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>4.14.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>7.8.0</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>com.aventstack</groupId>
-        <artifactId>extentreports</artifactId>
-        <version>5.0.9</version>
-    </dependency>
-</dependencies>
-```
-
----
+### 3. General Pages
+- `appointment.html`
+- `contact.html`
 
 ## Test Scenarios
+Each module is tested with detailed **positive** and **negative** test cases, covering edge cases, valid inputs, and invalid inputs.
 
-### 1. **Authentication Module**
-- **Sign-Up**: Validate mandatory fields, password strength, and duplicate user errors.
-- **Login**: Test valid/invalid credentials and error messages.
-- **Logout**: Verify redirection post-logout.
+### Example Scenarios:
+#### Positive Test Cases
+- Verify form fields are visible and functional.
+- Validate successful form submissions with valid inputs.
+- Ensure proper navigation and display of UI components.
 
-### 2. **Patient Features**
-- **Check Disease**: Add symptoms, trigger predictions, and verify results.
-- **Consult a Doctor**: Validate doctor list loading, navigation, and booking consultation.
-- **Consultation History**: Check correct display of past records.
+#### Negative Test Cases
+- Test form submission with missing or invalid data.
+- Validate error messages for invalid actions.
+- Attempt unauthorized actions and verify proper error handling.
 
-### 3. **Profile Management**
-- **View Profile**: Ensure correct data display.
-- **Edit Profile**: Validate field-level updates and error handling.
+## Pre-requisites
+To run the test suite, ensure the following:
+1. **Java Development Kit (JDK)**: Version 8 or higher.
+2. **Maven**: For dependency management.
+3. **ChromeDriver**: Ensure compatibility with your Chrome browser version.
+4. **Selenium WebDriver**: Latest version.
+5. **Healthcare Application**: Running locally or on a test server.
 
-### 4. **General Features**
-- **Appointment**: Validate mandatory fields for booking.
-- **Contact Form**: Ensure form submission and email validation.
+## Setup
+1. Clone the repository.
+2. Install dependencies using Maven:
+   ```bash
+   mvn clean install
+   ```
+3. Configure the `ChromeDriver` path in the Java files if required.
+4. Update the `baseUrl` in test files to point to your local or test environment.
 
----
-
-## Test Cases
-
-### Example 1: Login with Valid Credentials
-```java
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-public class LoginTest {
-    WebDriver driver;
-
-    @BeforeClass
-    public void setup() {
-        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
-        driver = new ChromeDriver();
-        driver.get("http://localhost:8000/login");
-    }
-
-    @Test
-    public void testLoginWithValidCredentials() {
-        driver.findElement(By.name("username")).sendKeys("testuser");
-        driver.findElement(By.name("password")).sendKeys("testpassword");
-        driver.findElement(By.className("login100-form-btn")).click();
-        Assert.assertTrue(driver.getTitle().contains("Dashboard"), "Login failed");
-    }
-
-    @AfterClass
-    public void teardown() {
-        driver.quit();
-    }
-}
-```
-
-### Example 2: Add Symptoms and Check Disease
-```java
-@Test
-public void testCheckDisease() {
-    driver.findElement(By.name("username")).sendKeys("patientUser");
-    driver.findElement(By.name("password")).sendKeys("password123");
-    driver.findElement(By.className("login100-form-btn")).click();
-    
-    driver.findElement(By.linkText("Check Disease")).click();
-    driver.findElement(By.id("searchbar")).sendKeys("Headache");
-    driver.findElement(By.xpath("//a[contains(text(),'Headache')]")).click();
-    driver.findElement(By.id("predict")).click();
-    
-    String result = driver.findElement(By.id("diseasefield")).getText();
-    Assert.assertNotNull(result, "Prediction result not displayed");
-}
-```
-
----
-
-## Execution Strategy
-
-### Daily Smoke Tests
-- Validate critical workflows such as **login** and **navigation**.
-
-### Weekly Regression Tests
-- Execute all test cases to ensure no new defects are introduced.
-
-### Test Execution Command
-Run the test suite using Maven:
+## Execution
+Run test cases using your preferred IDE (e.g., IntelliJ IDEA, Eclipse) or from the command line:
 ```bash
-mvn clean test
+mvn test
 ```
 
----
+## Test File Description
+Each Java file corresponds to a specific feature or module of the healthcare application.
 
-## Reporting
-Test execution reports are generated using **ExtentReports**.
+### Example Test Files:
+1. **`SigninPositiveTest.java`**: Tests successful login functionality.
+2. **`AppointmentNegativeTest.java`**: Tests invalid appointment submissions.
+3. **`ConsultDoctorPositiveTest.java`**: Validates consultation scheduling workflow.
 
-Example Usage:
-```java
-ExtentReports extent = new ExtentReports();
-ExtentTest test = extent.createTest("Login Test");
-test.log(Status.PASS, "Login successful");
-extent.flush();
-```
-Reports will be saved in the `test-output` directory.
-
----
-
-## Browser Compatibility
-- **Browsers**: Chrome, Firefox, Edge.
-- For parallel execution, configure **Selenium Grid**.
-
----
-
-## Maintenance
-- Update test scripts as new features are added.
-- Regularly verify compatibility with the latest browser versions.
-- Refactor test scripts for better modularity and reusability.
-
----
+### Logs and Reports:
+- Test outputs, including success messages or error validations, are logged to the console.
+- For better reporting, integrate with **ExtentReports** or similar tools.
 
 ## Contribution
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch.
-3. Submit a pull request with a detailed description of changes.
-
----
-
-## License
-This project is licensed under the **MIT License**.
-
----
+Feel free to contribute by:
+1. Adding more test cases.
+2. Improving error handling and assertions.
+3. Updating the documentation.
 
 ## Contact
-For queries or support, reach out at **support@healthapp.com**.
+For any issues or inquiries, please reach out to [rafiabdps@gmail.com].
+
+
+
